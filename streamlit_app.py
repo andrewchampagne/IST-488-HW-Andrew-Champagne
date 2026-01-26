@@ -1,5 +1,14 @@
 import streamlit as st
 from openai import OpenAI
+import PyPDF2
+
+def read_pdf(uploaded_file):
+    """Extract text from PDF file"""
+    pdf_reader = PyPDF2.PdfReader(uploaded_file)
+    text = ""
+    for page in pdf_reader.pages:
+        text += page.extract_text()
+    return text
 
 # Show title and description.
 st.title("MY Document question answering")
@@ -16,13 +25,15 @@ if not openai_api_key:
     st.info("Please add your OpenAI API key to continue.", icon="🗝️")
 else:
 
-    try:# Create an OpenAI client.
+    try:
+        # Create an OpenAI client.
         client = OpenAI(api_key=openai_api_key)
         client.models.list()
         st.success("API key validated")
+        
         # Let the user upload a file via `st.file_uploader`.
         uploaded_file = st.file_uploader(
-            "Upload a document (.txt or .md)", type=("txt", "md")
+            "Upload a document (.txt or .pdf)", type=("txt", "pdf")
         )
 
         # Ask the user for a question via `st.text_area`.
@@ -34,8 +45,17 @@ else:
 
         if uploaded_file and question:
 
-            # Process the uploaded file and question.
-            document = uploaded_file.read().decode()
+            # Process the uploaded file based on extension
+            file_extension = uploaded_file.name.split('.')[-1].lower()
+            
+            if file_extension == 'txt':
+                document = uploaded_file.read().decode()
+            elif file_extension == 'pdf':
+                document = read_pdf(uploaded_file)
+            else:
+                st.error("Unsupported file type. Please upload a .txt or .pdf file.")
+                st.stop()
+            
             messages = [
                 {
                     "role": "user",
@@ -45,7 +65,7 @@ else:
 
             # Generate an answer using the OpenAI API.
             stream = client.chat.completions.create(
-                model="gpt-5-nano",
+                model="gpt-4o-mini",
                 messages=messages,
                 stream=True,
             )
@@ -53,4 +73,4 @@ else:
             # Stream the response to the app using `st.write_stream`.
             st.write_stream(stream)
     except Exception as e:
-        st.write(e)
+        st.error(f"An error occurred: {str(e)}")
