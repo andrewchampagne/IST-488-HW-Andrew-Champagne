@@ -37,7 +37,7 @@ use_advanced_model = st.sidebar.checkbox("Use advanced model")
 if llm_provider == "OpenAI":
     model = "gpt-4o" if use_advanced_model else "gpt-4o-mini"
 else:  # Groq
-    model = "llama-3.3-70b-versatile" if use_advanced_model else "llama-3.1-8b-instant"
+    model = "deepseek-r1-distill-llama-70b" if use_advanced_model else "llama-3.3-70b-versatile"
 
 st.sidebar.write(f"Current model: {model}")
 
