@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 # Show title and description.
 st.title("Lab 2")
 st.write(
-    "Enter a URL below and ask a question about it – GPT will answer!"
+    "Enter a URL below and ask a question about it"
 )
 
 # Sidebar options
@@ -95,7 +95,15 @@ try:
                 messages=messages,
                 stream=True,
             )
-            st.write_stream(stream)
+            
+            # Handle streaming response
+            response_container = st.empty()
+            full_response = ""
+            for chunk in stream:
+                if chunk.choices[0].delta.content:
+                    full_response += chunk.choices[0].delta.content
+                    response_container.markdown(full_response)
+            
         
 except Exception as e:
     st.error(f"Error: {e}")
