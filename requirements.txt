@@ -1,3 +1,5 @@
 streamlit
 openai
 PyPDF2
+bs4
+groq
