@@ -1,6 +1,7 @@
 # pages/lab2.py
 import streamlit as st
 from openai import OpenAI
+from groq import Groq
 import requests
 from bs4 import BeautifulSoup
 # Show title and description.
@@ -43,10 +44,14 @@ st.sidebar.write(f"Current model: {model}")
 # Get API key from Streamlit secrets
 # Also made a toml file
 openai_api_key = st.secrets["OPENAI_API_KEY"]
+groq_api_key = st.secrets["GROQ_API_KEY"]
 
 try:
-    # Create an OpenAI client.
-    client = OpenAI(api_key=openai_api_key)
+    # Create the appropriate client based on provider
+    if llm_provider == "OpenAI":
+        client = OpenAI(api_key=openai_api_key)
+    else:
+        client = Groq(api_key=groq_api_key)
     
     # Let the user enter a URL
     url = st.text_input("Enter a URL:")
@@ -84,7 +89,7 @@ try:
                 }
             ]
 
-            # Generate an answer using the OpenAI API.
+            # Generate an answer using the selected API.
             stream = client.chat.completions.create(
                 model=model,
                 messages=messages,
