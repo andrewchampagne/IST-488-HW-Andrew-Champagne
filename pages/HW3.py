@@ -9,7 +9,8 @@ st.title("Lab 3: Streaming Chatbot with URL Context and Conversation Buffer")
 
 st.sidebar.header("Chatbot Settings")
 
-model = "gpt-4o"
+use_advanced_model = st.sidebar.checkbox("Use advanced model")
+model = "gpt-4o" if use_advanced_model else "gpt-4o-mini"
 st.sidebar.write(f"Current model: {model}")
 
 openai_api_key = st.secrets["OPENAI_API_KEY"]
