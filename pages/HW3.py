@@ -7,6 +7,16 @@ from bs4 import BeautifulSoup
 
 st.title("Lab 3: Streaming Chatbot with URL Context and Conversation Buffer")
 
+st.write("""
+**How this chatbot works:**
+- You can provide up to 2 URLs as context for the conversation
+- The chatbot uses the content from these URLs to answer your questions
+- Choose between GPT-4o (advanced) or GPT-4o-mini (faster) models
+- Conversation memory uses a message buffer that keeps the last 6 messages (3 user-assistant exchanges)
+- The URL context is stored in the system prompt and is never removed from memory
+- Token counts are displayed in the sidebar to track context usage
+""")
+
 st.sidebar.header("Chatbot Settings")
 
 use_advanced_model = st.sidebar.checkbox("Use advanced model")
