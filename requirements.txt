@@ -1,5 +1,6 @@
 streamlit
 openai
+chromadb
 PyPDF2
 bs4
 groq
