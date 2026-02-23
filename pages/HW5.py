@@ -99,7 +99,7 @@ if "HW5_VectorDB" not in st.session_state:
         st.session_state.HW5_VectorDB = get_or_create_vector_db()
 
 collection = st.session_state.HW5_VectorDB
-st.success("Vector DB ready for HW5 chatbot.")
+st.success("Vector DB ready")
 st.write(f"Collection: `{collection.name}`")
 st.write(f"Chunk count: `{collection.count()}`")
 
@@ -172,8 +172,7 @@ if user_question := st.chat_input("Ask a question about organizations"):
     retrieval = relative_club_info(user_question, k=5)
     memory_text = build_memory_text(st.session_state.hw5_history)
 
-    # Per HW5 instructions, we pass retrieval results directly into prompts rather
-    # than using function-calling mode in the model invocation.
+    # Per HW5 instructions, we pass retrieval results directly into prompts 
     system_prompt = (
         "You are a campus organization assistant. Use the retrieved club information "
         "below as your main evidence. If evidence is incomplete, say so clearly and "
