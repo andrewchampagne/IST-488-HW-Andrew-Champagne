@@ -5,8 +5,9 @@ hw2 = st.Page("pages/HW2.py", title="HW2")
 hw3 = st.Page("pages/HW3.py", title="HW3",  default=True)
 hw4 = st.Page("pages/HW4.py", title="HW4")
 hw5 = st.Page("pages/HW5.py", title="HW5")
+hw7 = st.Page("pages/HW7.py", title="HW7")
 
 # Create navigation
-pg = st.navigation([hw1, hw2, hw3, hw4, hw5])
+pg = st.navigation([hw1, hw2, hw3, hw4, hw5, hw7])
 
 pg.run()
